@@ -33,6 +33,7 @@ public class ExpenseSplitterSwingApp {
         tabbedPane.addTab("Add Expense", createStyledPanel(createAddExpensePanel()));
         tabbedPane.addTab("Record Payment", createStyledPanel(createPaymentPanel()));
         tabbedPane.addTab("View Balances", createStyledPanel(createViewBalancesPanel()));
+        tabbedPane.addTab("View Users", createStyledPanel(createViewUsersPanel())); // New tab for users
 
         frame.getContentPane().add(tabbedPane);
         frame.setVisible(true);
@@ -51,16 +52,18 @@ public class ExpenseSplitterSwingApp {
         UIManager.put("OptionPane.background", Color.DARK_GRAY);
         UIManager.put("OptionPane.messageForeground", Color.WHITE);
         UIManager.put("Label.foreground", Color.WHITE);
-        UIManager.put("TextField.background", Color.GRAY);
+        UIManager.put("TextField.background", Color.BLACK);
         UIManager.put("TextField.foreground", Color.WHITE);
         UIManager.put("Button.background", Color.GRAY);
         UIManager.put("Button.foreground", Color.WHITE);
+        UIManager.put("TextArea.background", Color.GRAY);
+        UIManager.put("TextArea.foreground", Color.WHITE);
     }
 
     private JTextField styledTextField() {
         JTextField tf = new JTextField();
         tf.setForeground(Color.WHITE);
-        tf.setBackground(Color.DARK_GRAY);
+        tf.setBackground(Color.GRAY);
         tf.setCaretColor(Color.WHITE);
         return tf;
     }
@@ -110,7 +113,7 @@ public class ExpenseSplitterSwingApp {
                 ps.setString(1, nameField.getText());
                 ps.setString(2, emailField.getText());
                 ps.executeUpdate();
-                showMessage("Success", "User added.");
+                showMessage("Success", "User  added.");
             } catch (SQLException ex) {
                 showMessage("Error", ex.getMessage());
             }
@@ -250,9 +253,9 @@ public class ExpenseSplitterSwingApp {
         panel.setOpaque(false);
         JTextArea resultArea = new JTextArea();
         resultArea.setEditable(false);
-        resultArea.setBackground(Color.BLACK);
-        resultArea.setForeground(Color.GREEN);
-        resultArea.setCaretColor(Color.GREEN);
+        resultArea.setBackground(Color.GRAY);
+        resultArea.setForeground(Color.WHITE);
+        resultArea.setCaretColor(Color.WHITE);
         JButton refresh = new JButton("Refresh Balances");
 
         refresh.addActionListener(e -> {
@@ -280,6 +283,38 @@ public class ExpenseSplitterSwingApp {
 
         panel.add(refresh, BorderLayout.NORTH);
         panel.add(new JScrollPane(resultArea), BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel createViewUsersPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
+        JTextArea userArea = new JTextArea();
+        userArea.setEditable(false);
+        userArea.setBackground(Color.GRAY);
+        userArea.setForeground(Color.WHITE);
+        userArea.setCaretColor(Color.WHITE);
+        JButton loadUsersBtn = new JButton("Load Users");
+
+        loadUsersBtn.addActionListener(e -> {
+            try {
+                String sql = "SELECT name, email FROM users";
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                StringBuilder sb = new StringBuilder();
+                while (rs.next()) {
+                    sb.append("Name: ").append(rs.getString("name"))
+                    .append(", Email: ").append(rs.getString("email"))
+                    .append("\n");
+                }
+                userArea.setText(sb.toString());
+            } catch (SQLException ex) {
+                showMessage("Error", ex.getMessage());
+            }
+        });
+
+        panel.add(loadUsersBtn, BorderLayout.NORTH);
+        panel.add(new JScrollPane(userArea), BorderLayout.CENTER);
         return panel;
     }
 
