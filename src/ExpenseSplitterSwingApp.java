@@ -49,22 +49,26 @@ public class ExpenseSplitterSwingApp {
 
     private void applyDarkTheme() {
         UIManager.put("Panel.background", Color.DARK_GRAY);
-        UIManager.put("OptionPane.background", Color.DARK_GRAY);
-        UIManager.put("OptionPane.messageForeground", Color.WHITE);
-        UIManager.put("Label.foreground", Color.WHITE);
-        UIManager.put("TextField.background", Color.BLACK);
-        UIManager.put("TextField.foreground", Color.WHITE);
-        UIManager.put("Button.background", Color.GRAY);
-        UIManager.put("Button.foreground", Color.WHITE);
-        UIManager.put("TextArea.background", Color.GRAY);
-        UIManager.put("TextArea.foreground", Color.WHITE);
+        UIManager.put("OptionPane.background", Color.BLACK);
+        UIManager.put("OptionPane.messageForeground", Color.WHITE);           // text color
+        UIManager.put("Label.foreground", Color.WHITE);                        // text color
+        UIManager.put("TextField.background", Color.BLACK);                    // background
+        UIManager.put("TextField.foreground", Color.WHITE);                    // text color
+        UIManager.put("TextField.font", new Font("Dialog", Font.BOLD, 12));   // bold text
+        UIManager.put("Button.background", Color.BLACK);
+        UIManager.put("Button.foreground", Color.WHITE);                       // text color
+        UIManager.put("Button.font", new Font("Dialog", Font.BOLD, 12));      // bold text
+        UIManager.put("TextArea.background", Color.BLACK);                     // background
+        UIManager.put("TextArea.foreground", Color.WHITE);                     // text color
+        UIManager.put("TextArea.font", new Font("Dialog", Font.BOLD, 12));    // bold text
     }
 
     private JTextField styledTextField() {
         JTextField tf = new JTextField();
-        tf.setForeground(Color.WHITE);
-        tf.setBackground(Color.GRAY);
-        tf.setCaretColor(Color.WHITE);
+        tf.setForeground(Color.WHITE);                       // text color
+        tf.setBackground(Color.BLACK);                       // background
+        tf.setCaretColor(Color.WHITE);                       // caret color
+        tf.setFont(new Font("Dialog", Font.BOLD, 12));       // bold text
         return tf;
     }
 
